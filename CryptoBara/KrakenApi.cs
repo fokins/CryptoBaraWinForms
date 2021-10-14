@@ -9,13 +9,13 @@ namespace CryptoBara
 {
     class KrakenApi : BaseApi    
     {
+        static List<string> KrakenCoinNames = new List<string>() { "XXBT", "XETH" };
+        static List<string> KrakenCurrencyNames = new List<string>() { "ZUSD" };
+
         public KrakenApi()
         {
             BaseUrl = "https://api.kraken.com";
             PriceUrl = "/0/public/Ticker?pair=";
-
-            List<string> KrakenCoinNames = new List<string>() { "ADA", "XXBT", "XETH", "TRX", "XTZ" };
-            List<string> KrakenCurrencyNames = new List<string>() { "ZUSD" };
 
             converter.Init(KrakenCoinNames, KrakenCurrencyNames);
         }
@@ -23,40 +23,37 @@ namespace CryptoBara
 
         public class TickerItem
         {
-            public decimal[] a;
-            public decimal[] b;
-            public decimal[] c;
-            public decimal[] v;
-            public decimal[] p;
-            public decimal[] t;
-            public decimal[] l;
-            public decimal[] h;
-            public decimal o;
+            public string[] a { get; set; }
+            public string[] b { get; set; }
+            public string[] c { get; set; }
+            public string[] v { get; set; }
+            public string[] p { get; set; }
+            public decimal[] t { get; set; }
+            public string[] l { get; set; }
+            public string[] h { get; set; }
+            public string o { get; set; }
         }
         public class Ticker
         {
-            public string[] error;
-            public Dictionary<string, TickerItem> result;
+            public string[] error { get; set; }
+            public Dictionary<string, TickerItem> result { get; set; }
         }
 
         public override string GetPrice(string CoinName, string CurrencyName)
         {
 
-            //try
-           // {
+            Ticker ticker = new Ticker();
+
+            try
+            {
                 string PriceString = BaseClient.DownloadString(BaseUrl + PriceUrl + converter.CoinNames[CoinName] + converter.CurrencyNames[CurrencyName]);
-                Ticker ticker = JsonSerializer.Deserialize<Ticker>(PriceString);
-            //}
-            // catch
-            // {
-            //      ticker.data.amount = "REQUEST ERROR";
-            //}
-
-            string ans = "";
-
-            foreach (var item in ticker.result) ans += item.Key;
-            return ans;
-            //return PriceString;
+                ticker = JsonSerializer.Deserialize<Ticker>(PriceString);
+            }
+            catch
+            {
+                return "REQUEST ERROR";
+            }
+            return ticker.result[converter.CoinNames[CoinName] + converter.CurrencyNames[CurrencyName]].b[0];
         }
     }
 }

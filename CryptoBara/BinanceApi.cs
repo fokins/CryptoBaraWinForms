@@ -11,7 +11,7 @@ namespace CryptoBara
     class BinanceApi : BaseApi
     {
 
-        static List<string> BinanceCoinNames = new List<string>() { "ADA", "BTC", "ETH", "TRX", "XTZ" };
+        static List<string> BinanceCoinNames = new List<string>() { "BTC", "ETH" };
         static List<string> BinanceCurrencyNames = new List<string>() { "USDT" };
 
         public BinanceApi()
@@ -44,17 +44,6 @@ namespace CryptoBara
             }
 
             return ticker.price;
-        }
-        public List<string> GetAllPrices(string CurrencyName)
-        {
-            List<string> AllPricesString = new List<string>();
-
-            foreach (var CoinName in BinanceCoinNames)
-            {
-                AllPricesString.Add(CoinName + "   " + GetPrice(CoinName, CurrencyName) + "   " + CurrencyName);
-            }
-
-            return AllPricesString;
         }
     }
 }

@@ -76,6 +76,8 @@
   <ItemGroup>
     <Compile Include="BaseApi.cs" />
     <Compile Include="BinanceApi.cs" />
+    <Compile Include="GateioApi.cs" />
+    <Compile Include="KucoinApi.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

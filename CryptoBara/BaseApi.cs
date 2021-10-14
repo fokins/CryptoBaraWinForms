@@ -19,7 +19,7 @@ namespace CryptoBara
 
         public class Converter
         {
-            public List<string> BaseCoinNames = new List<string>() { "ADA", "BTC", "ETH", "TRX", "XTZ" };
+            public List<string> BaseCoinNames = new List<string>() { "BTC", "ETH" };
             public List<string> BaseCurrencyNames = new List<string>() { "USD" };
 
             public Dictionary<string, string> CoinNames = new Dictionary<string, string>();
@@ -42,5 +42,17 @@ namespace CryptoBara
         public Converter converter = new Converter();
 
         public virtual string GetPrice(string CoinName, string CurrencyName) { return "BASE PRICE"; }
+
+        public string GetAllPrices(string CurrencyName)
+        {
+            string AllPricesString = "";
+
+            foreach (var CoinName in converter.BaseCoinNames)
+            {
+                AllPricesString += (CoinName + "   " + GetPrice(CoinName, CurrencyName) + "   " + CurrencyName) + Environment.NewLine;
+            }
+
+            return AllPricesString;
+        }
     }
 }
